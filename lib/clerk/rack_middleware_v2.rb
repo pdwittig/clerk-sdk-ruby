@@ -83,7 +83,9 @@ module Clerk
           return signed_out(env)  # malformed JSON authorization header
         end
         
+        p 'verifying token'
         token = verify_token(header_token)
+        p token
         return signed_in(env, token, header_token) if token
 
         # Clerk.js should refresh the token and retry
@@ -110,6 +112,7 @@ module Clerk
       #                                                                        #
       ##########################################################################
       if development_or_staging? && (req.referrer.nil? || cross_origin_request?(req))
+        p 'dev or staging'
         return unknown(interstitial: true)
       end
 
